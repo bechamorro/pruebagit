@@ -1,0 +1,22 @@
+name: Construir y desplegar aplicación Futbol-App
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configurar Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Construir aplicación
+        run: cd app && javac *.java
+      - name: Empaquetar aplicación
+        run: cd app && jar cvf Futbol-App.jar *.class
+      - name: Subir artefacto
+        uses: actions/upload-artifact@v2
+        with:
+          name: Futbol-App
+          path: app/Futbol-App.jar
